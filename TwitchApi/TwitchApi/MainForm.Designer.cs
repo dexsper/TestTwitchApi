@@ -30,6 +30,9 @@
         {
             uiNameTextBox = new TextBox();
             uiChangeNameButton = new Button();
+            textBox1 = new TextBox();
+            uiTarkRadioButton = new RadioButton();
+            radioButton2 = new RadioButton();
             SuspendLayout();
             // 
             // uiNameTextBox
@@ -49,15 +52,49 @@
             uiChangeNameButton.UseVisualStyleBackColor = true;
             uiChangeNameButton.Click += uiChangeNameButton_Click;
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(412, 27);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(241, 356);
+            textBox1.TabIndex = 2;
+            // 
+            // radioButton1
+            // 
+            uiTarkRadioButton.AutoSize = true;
+            uiTarkRadioButton.Location = new Point(19, 200);
+            uiTarkRadioButton.Name = "radioButton1";
+            uiTarkRadioButton.Size = new Size(49, 19);
+            uiTarkRadioButton.TabIndex = 3;
+            uiTarkRadioButton.TabStop = true;
+            uiTarkRadioButton.Text = "тарк";
+            uiTarkRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            radioButton2.AutoSize = true;
+            radioButton2.Location = new Point(19, 225);
+            radioButton2.Name = "radioButton2";
+            radioButton2.Size = new Size(63, 19);
+            radioButton2.TabIndex = 4;
+            radioButton2.TabStop = true;
+            radioButton2.Text = "разраб";
+            radioButton2.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(radioButton2);
+            Controls.Add(uiTarkRadioButton);
+            Controls.Add(textBox1);
             Controls.Add(uiChangeNameButton);
             Controls.Add(uiNameTextBox);
             Name = "MainForm";
             Text = "Твич";
+            Load += MainForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -66,5 +103,8 @@
 
         private TextBox uiNameTextBox;
         private Button uiChangeNameButton;
+        private TextBox textBox1;
+        private RadioButton uiTarkRadioButton;
+        private RadioButton radioButton2;
     }
 }
