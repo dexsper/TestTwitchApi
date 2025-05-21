@@ -28,26 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            authButton = new Button();
+            uiAuthButton = new Button();
             SuspendLayout();
             // 
             // authButton
             // 
-            authButton.Location = new Point(84, 98);
-            authButton.Name = "authButton";
-            authButton.Size = new Size(120, 50);
-            authButton.TabIndex = 0;
-            authButton.Text = "Авторизоваться";
-            authButton.UseVisualStyleBackColor = true;
-            authButton.Click += authButton_Click;
+            uiAuthButton.Location = new Point(84, 98);
+            uiAuthButton.Name = "authButton";
+            uiAuthButton.Size = new Size(120, 50);
+            uiAuthButton.TabIndex = 0;
+            uiAuthButton.Text = "Авторизоваться";
+            uiAuthButton.UseVisualStyleBackColor = true;
+            uiAuthButton.Click += authButton_Click;
             // 
             // AuthForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(284, 261);
-            ControlBox = false;
-            Controls.Add(authButton);
+            Controls.Add(uiAuthButton);
             Name = "AuthForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Авторизация";
@@ -57,6 +56,6 @@
 
         #endregion
 
-        private Button authButton;
+        private Button uiAuthButton;
     }
 }

@@ -10,14 +10,15 @@ namespace TwitchApi.Twitch
         private readonly string _clientId;
         private readonly string _clientSecret;
         private readonly HttpClient _httpClient;
-        private readonly IAuthStorage _authStorage;
+        private readonly AuthStorage _authStorage;
 
         private TwitchAuth _auth;
 
-        public TwitchApiClient(string clientId, string clientSecret, IAuthStorage authStorage)
+        public TwitchApiClient(AuthStorage authStorage)
         {
-            _clientId = clientId;
-            _clientSecret = clientSecret;
+            var blabla = File.ReadAllLines("E:\\bobgroup\\projects\\TwitchPomogator\\key.txt");
+            _clientId = blabla[2];
+            _clientSecret = blabla[0];
             _httpClient = new();
             _authStorage = authStorage;
             _auth = _authStorage.Load();
@@ -64,7 +65,9 @@ namespace TwitchApi.Twitch
         public async Task RefreshToken()
         {
             if (_auth.RefreshToken == null)
+            {
                 throw new InvalidOperationException("Refresh token is empty");
+            }
 
             var parameters = new Dictionary<string, string>
             {
@@ -125,7 +128,9 @@ namespace TwitchApi.Twitch
             var tokenData = JsonSerializer.Deserialize<TokenResponse>(json);
 
             if (tokenData == null)
+            {
                 throw new($"Failed parse response from twitch: {json}");
+            }
 
             UpdateHeaders(tokenData.AccessToken);
             var users = await GetUsers();

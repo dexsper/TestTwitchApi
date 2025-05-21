@@ -7,7 +7,7 @@ namespace TwitchApi
 {
     public partial class AuthForm : Form
     {
-        private const int ListenPort = 3012;
+        private const int ListenPort = 21799;
         private string RedirectUrl => $"http://localhost:{ListenPort}";
 
         public AuthForm()
@@ -52,6 +52,7 @@ namespace TwitchApi
                 string responseString = @"
                 <html>
                   <head>
+                    <meta charset=""utf-8"" />
                     <script>
                       window.close();
                     </script>
@@ -74,10 +75,13 @@ namespace TwitchApi
 
         private async void AuthForm_Load(object sender, EventArgs e)
         {
+            uiAuthButton.Enabled = false;
             var tokenIsValid = await Program.Client.IsTokenValid();
-
             if (!tokenIsValid)
+            {
+                uiAuthButton.Enabled = true;
                 return;
+            }
 
             ShowMainForm();
         }

@@ -28,18 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            titleTextBox = new TextBox();
+            uiTitleTextBox = new TextBox();
             updateButton = new Button();
-            gameTextBot = new TextBox();
+            uiCategoryIdTextBox = new TextBox();
+            uiTypeTarkovRadioButton = new RadioButton();
+            uiTypeDevelopRadioButton = new RadioButton();
+            uiTypeCustomRadioButton = new RadioButton();
             SuspendLayout();
             // 
-            // titleTextBox
+            // uiTitleTextBox
             // 
-            titleTextBox.Location = new Point(93, 12);
-            titleTextBox.Name = "titleTextBox";
-            titleTextBox.PlaceholderText = "Название стрима";
-            titleTextBox.Size = new Size(200, 23);
-            titleTextBox.TabIndex = 0;
+            uiTitleTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            uiTitleTextBox.Location = new Point(172, 11);
+            uiTitleTextBox.Name = "uiTitleTextBox";
+            uiTitleTextBox.PlaceholderText = "Название стрима";
+            uiTitleTextBox.Size = new Size(200, 23);
+            uiTitleTextBox.TabIndex = 0;
             // 
             // updateButton
             // 
@@ -51,32 +55,75 @@
             updateButton.UseVisualStyleBackColor = true;
             updateButton.Click += updateButton_Click;
             // 
-            // gameTextBot
+            // uiCategoryIdTextBox
             // 
-            gameTextBot.Location = new Point(93, 52);
-            gameTextBot.Name = "gameTextBot";
-            gameTextBot.PlaceholderText = "ID игры";
-            gameTextBot.Size = new Size(200, 23);
-            gameTextBot.TabIndex = 2;
+            uiCategoryIdTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            uiCategoryIdTextBox.Location = new Point(172, 40);
+            uiCategoryIdTextBox.Name = "uiCategoryIdTextBox";
+            uiCategoryIdTextBox.PlaceholderText = "ID игры";
+            uiCategoryIdTextBox.Size = new Size(200, 23);
+            uiCategoryIdTextBox.TabIndex = 2;
+            // 
+            // uiTypeTarkovRadioButton
+            // 
+            uiTypeTarkovRadioButton.AutoSize = true;
+            uiTypeTarkovRadioButton.Location = new Point(12, 37);
+            uiTypeTarkovRadioButton.Name = "uiTypeTarkovRadioButton";
+            uiTypeTarkovRadioButton.Size = new Size(63, 19);
+            uiTypeTarkovRadioButton.TabIndex = 3;
+            uiTypeTarkovRadioButton.Text = "Тарков";
+            uiTypeTarkovRadioButton.UseVisualStyleBackColor = true;
+            uiTypeTarkovRadioButton.CheckedChanged += uiTypeRadioButtons_CheckedChanged;
+            // 
+            // uiTypeDevelopRadioButton
+            // 
+            uiTypeDevelopRadioButton.AutoSize = true;
+            uiTypeDevelopRadioButton.Location = new Point(12, 62);
+            uiTypeDevelopRadioButton.Name = "uiTypeDevelopRadioButton";
+            uiTypeDevelopRadioButton.Size = new Size(99, 19);
+            uiTypeDevelopRadioButton.TabIndex = 4;
+            uiTypeDevelopRadioButton.Text = ".Net помойка";
+            uiTypeDevelopRadioButton.UseVisualStyleBackColor = true;
+            uiTypeDevelopRadioButton.CheckedChanged += uiTypeRadioButtons_CheckedChanged;
+            // 
+            // uiTypeCustomRadioButton
+            // 
+            uiTypeCustomRadioButton.AutoSize = true;
+            uiTypeCustomRadioButton.Checked = true;
+            uiTypeCustomRadioButton.Location = new Point(12, 12);
+            uiTypeCustomRadioButton.Name = "uiTypeCustomRadioButton";
+            uiTypeCustomRadioButton.Size = new Size(100, 19);
+            uiTypeCustomRadioButton.TabIndex = 5;
+            uiTypeCustomRadioButton.TabStop = true;
+            uiTypeCustomRadioButton.Text = "Произвольно";
+            uiTypeCustomRadioButton.UseVisualStyleBackColor = true;
+            uiTypeCustomRadioButton.CheckedChanged += uiTypeRadioButtons_CheckedChanged;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(384, 311);
-            Controls.Add(gameTextBot);
+            Controls.Add(uiTypeCustomRadioButton);
+            Controls.Add(uiTypeDevelopRadioButton);
+            Controls.Add(uiTypeTarkovRadioButton);
+            Controls.Add(uiCategoryIdTextBox);
             Controls.Add(updateButton);
-            Controls.Add(titleTextBox);
+            Controls.Add(uiTitleTextBox);
             Name = "MainForm";
             Text = "Твич";
+            Load += MainForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private TextBox titleTextBox;
+        private TextBox uiTitleTextBox;
         private Button updateButton;
-        private TextBox gameTextBot;
+        private TextBox uiCategoryIdTextBox;
+        private RadioButton uiTypeTarkovRadioButton;
+        private RadioButton uiTypeDevelopRadioButton;
+        private RadioButton uiTypeCustomRadioButton;
     }
 }

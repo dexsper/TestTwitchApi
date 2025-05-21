@@ -5,9 +5,7 @@ namespace TwitchApi
     internal static class Program
     {
         public static readonly TwitchApiClient Client = new(
-            Properties.Settings.Default.ClientId,
-            Properties.Settings.Default.ClientSecret,
-            new FileStorage("credentials.json")
+            new AuthStorage("credentials.json")
         );
 
         public static ApplicationContext Context { get; set; } = null!;
