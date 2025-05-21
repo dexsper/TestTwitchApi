@@ -111,6 +111,7 @@
             Controls.Add(updateButton);
             Controls.Add(uiTitleTextBox);
             Name = "MainForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Твич";
             Load += MainForm_Load;
             ResumeLayout(false);

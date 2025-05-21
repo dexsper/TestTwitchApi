@@ -10,22 +10,25 @@ namespace TwitchApi
         private const int ListenPort = 21799;
         private string RedirectUrl => $"http://localhost:{ListenPort}";
 
-        public AuthForm()
+        private TwitchApiClient _twitchApiClient;
+
+        public AuthForm(TwitchApiClient twitchApiClient)
         {
+            _twitchApiClient = twitchApiClient;
             InitializeComponent();
         }
 
         private async void authButton_Click(object sender, EventArgs e)
         {
             var code = await GetAuthCode();
-            await Program.Client.RefreshTokenByCode(code, RedirectUrl);
+            await _twitchApiClient.RefreshTokenByCode(code, RedirectUrl);
 
-            ShowMainForm();
+            Close();
         }
 
         private async Task<string> GetAuthCode()
         {
-            var authorizeUrl = Program.Client.GetCodeAuthLink(
+            var authorizeUrl = _twitchApiClient.GetCodeAuthLink(
                 RedirectUrl,
                 TwitchScope.UserReadBroadcast | TwitchScope.ChannelManageBroadcast
             );
@@ -71,26 +74,6 @@ namespace TwitchApi
 
                 return code;
             }
-        }
-
-        private async void AuthForm_Load(object sender, EventArgs e)
-        {
-            uiAuthButton.Enabled = false;
-            var tokenIsValid = await Program.Client.IsTokenValid();
-            if (!tokenIsValid)
-            {
-                uiAuthButton.Enabled = true;
-                return;
-            }
-
-            ShowMainForm();
-        }
-
-        private void ShowMainForm()
-        {
-            Program.Context.MainForm = new MainForm();
-            Program.Context.MainForm.Show();
-            Close();
         }
     }
 }

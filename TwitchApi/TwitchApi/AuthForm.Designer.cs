@@ -50,7 +50,6 @@
             Name = "AuthForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Авторизация";
-            Load += AuthForm_Load;
             ResumeLayout(false);
         }
 

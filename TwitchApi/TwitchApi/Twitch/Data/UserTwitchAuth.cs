@@ -1,6 +1,6 @@
-﻿namespace TwitchApi.Twitch;
+﻿namespace TwitchApi.Twitch.Data;
 
-public record TwitchAuth(
+public record UserTwitchAuth(
     string? AccessToken,
     string? RefreshToken,
     string? BroadcasterId

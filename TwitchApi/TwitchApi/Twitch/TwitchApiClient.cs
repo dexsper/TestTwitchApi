@@ -1,26 +1,24 @@
 ﻿using System.Collections.Specialized;
 using System.Text;
 using System.Text.Json;
+using TwitchApi.Twitch.Data;
 using TwitchApi.Twitch.Responses;
 
 namespace TwitchApi.Twitch
 {
     public class TwitchApiClient
     {
-        private readonly string _clientId;
-        private readonly string _clientSecret;
+        private readonly ClientTwitchAuth _clientAuth;
+        private readonly UserAuthStorage _authStorage;
         private readonly HttpClient _httpClient;
-        private readonly AuthStorage _authStorage;
 
-        private TwitchAuth _auth;
+        private UserTwitchAuth _auth;
 
-        public TwitchApiClient(AuthStorage authStorage)
+        public TwitchApiClient(ClientTwitchAuth clientAuth, UserAuthStorage authStorage)
         {
-            var blabla = File.ReadAllLines("E:\\bobgroup\\projects\\TwitchPomogator\\key.txt");
-            _clientId = blabla[2];
-            _clientSecret = blabla[0];
-            _httpClient = new();
+            _clientAuth = clientAuth;
             _authStorage = authStorage;
+            _httpClient = new HttpClient();
             _auth = _authStorage.Load();
 
             UpdateHeaders();
@@ -29,7 +27,9 @@ namespace TwitchApi.Twitch
         public async ValueTask<bool> IsTokenValid()
         {
             if (string.IsNullOrEmpty(_auth.AccessToken))
+            {
                 return false;
+            }
 
             var response = await _httpClient.GetAsync(TwitchConstants.OauthValidate);
             return response.IsSuccessStatusCode;
@@ -39,7 +39,7 @@ namespace TwitchApi.Twitch
         {
             var query = new NameValueCollection
             {
-                { "client_id", _clientId },
+                { "client_id", _clientAuth.ClientId },
                 { "redirect_uri", redirect },
                 { "response_type", "code" },
                 { "scope", scope.ToScopeString() },
@@ -52,8 +52,8 @@ namespace TwitchApi.Twitch
         {
             var parameters = new Dictionary<string, string>
             {
-                { "client_id", _clientId },
-                { "client_secret", _clientSecret },
+                { "client_id", _clientAuth.ClientId },
+                { "client_secret", _clientAuth.ClientSecret },
                 { "code", code },
                 { "grant_type", "authorization_code" },
                 { "redirect_uri", redirect },
@@ -71,8 +71,8 @@ namespace TwitchApi.Twitch
 
             var parameters = new Dictionary<string, string>
             {
-                { "client_id", _clientId },
-                { "client_secret", _clientSecret },
+                { "client_id", _clientAuth.ClientId },
+                { "client_secret", _clientAuth.ClientSecret },
                 { "refresh_token", _auth.RefreshToken },
                 { "grant_type", "refresh_token" },
             };
@@ -83,7 +83,9 @@ namespace TwitchApi.Twitch
         public async Task<bool> UpdateBroadcast(string? title = null, string? gameId = null, string[]? tags = null)
         {
             if (_auth.BroadcasterId == null)
+            {
                 throw new InvalidOperationException("Broadcaster id is empty");
+            }
 
             var query = new NameValueCollection
             {
@@ -113,7 +115,9 @@ namespace TwitchApi.Twitch
             var userResponse = JsonSerializer.Deserialize<TwitchUserResponse>(json);
 
             if (userResponse == null)
+            {
                 throw new($"Failed parse response from twitch: {json}");
+            }
 
             return userResponse.Data;
         }
@@ -142,7 +146,7 @@ namespace TwitchApi.Twitch
         private void UpdateHeaders(string? accessToken = null)
         {
             _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Add("Client-ID", _clientId);
+            _httpClient.DefaultRequestHeaders.Add("Client-ID", _clientAuth.ClientId);
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken ?? _auth.AccessToken}");
         }
     }
