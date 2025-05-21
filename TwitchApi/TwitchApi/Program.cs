@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
+using TwitchApi.Profile;
 using TwitchApi.Twitch;
 using TwitchApi.Twitch.Data;
 
@@ -56,6 +57,7 @@ namespace TwitchApi
                     services.AddSingleton(new UserAuthStorage("credentials.json"));
                     services.AddSingleton<TwitchApiClient>();
 
+                    services.AddSingleton(new TwitchProfileStorage("profiles.json"));
                     services.AddSingleton<MainForm>();
                     services.AddTransient<AuthForm>();
                 });
