@@ -1,10 +1,10 @@
 ﻿using System.Collections.Specialized;
 using System.Text;
 using System.Text.Json;
-using TwitchApi.Twitch.Data;
-using TwitchApi.Twitch.Responses;
+using TwitchAPi.Client.Data;
+using TwitchAPi.Client.Responses;
 
-namespace TwitchApi.Twitch
+namespace TwitchAPi.Client
 {
     public class TwitchApiClient
     {

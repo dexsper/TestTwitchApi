@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Net;
 using System.Text;
-using TwitchApi.Twitch;
+using TwitchAPi.Client;
 
 namespace TwitchApi
 {

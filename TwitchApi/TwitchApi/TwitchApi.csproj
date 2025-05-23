@@ -15,4 +15,8 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TwitchAPi.Client\TwitchAPi.Client.csproj" />
+  </ItemGroup>
+
 </Project>

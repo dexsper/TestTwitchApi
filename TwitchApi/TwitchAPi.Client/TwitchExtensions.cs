@@ -1,4 +1,7 @@
-﻿namespace TwitchApi.Twitch
+﻿using System.Collections.Specialized;
+using System.Web;
+
+namespace TwitchAPi.Client
 {
     public static class TwitchExtensions
     {
@@ -18,7 +21,20 @@
                 _ => string.Join(" ", scopeValues)
             };
         }
+        public static string ToQueryString(this NameValueCollection nvc)
+        {
+            if (nvc == null || nvc.Count == 0)
+                return string.Empty;
 
+            var array = (
+                from key in nvc.AllKeys
+                where key != null
+                from value in nvc.GetValues(key) ?? Array.Empty<string>()
+                select $"{HttpUtility.UrlEncode(key)}={HttpUtility.UrlEncode(value)}"
+            ).ToArray();
+
+            return array.Length > 0 ? "?" + string.Join("&", array) : string.Empty;
+        }
         public static T? GetAttribute<T>(this Enum value) where T : Attribute
         {
             var field = value.GetType().GetField(value.ToString());

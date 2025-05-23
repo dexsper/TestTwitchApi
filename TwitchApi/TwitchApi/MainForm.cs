@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
 using TwitchApi.Profile;
-using TwitchApi.Twitch;
+using TwitchAPi.Client;
 
 namespace TwitchApi
 {
