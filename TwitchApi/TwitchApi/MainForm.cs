@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using TwitchApi.Profile;
 using TwitchAPi.Client;
+using TwitchAPi.Client.Common;
 
 namespace TwitchApi
 {
@@ -30,20 +31,32 @@ namespace TwitchApi
 
             if (!tokenIsValid)
             {
-                using (var authForm = Program.ServiceProvider.GetRequiredService<AuthForm>())
-                    authForm.ShowDialog();
+                var authorizeUrl = _twitchApiClient.Auth.GetCodeAuthLink(
+                    TwitchScope.UserReadBroadcast | TwitchScope.ChannelManageBroadcast
+                );
+
+                Process.Start(new ProcessStartInfo(authorizeUrl) { UseShellExecute = true });
+
+                return;
             }
 
+            InitializeUser();
+        }
+
+        public async void OnCodeRecevied(string code)
+        {
+            await _twitchApiClient.Auth.RefreshTokenByCode(code);
+
+            InitializeUser();
+            Activate();
+        }
+
+        private async void InitializeUser()
+        {
             await _twitchApiClient.InitializeUser();
 
             updateButton.Enabled = true;
             uiUserLabel.Text = _twitchApiClient.UserName;
-        }
-
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
-            _profileStorage.SaveProfiles(_profiles.ToList());
         }
 
         private void uiProfileComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -57,7 +70,7 @@ namespace TwitchApi
 
         private void uiCreateProfileButton_Click(object sender, EventArgs e)
         {
-            var profileName = ShowInputDialog("Введите название профиля:");
+            var profileName = InputDialogHelper.Show("Введите название профиля:");
             if (profileName == null)
             {
                 return;
@@ -87,28 +100,10 @@ namespace TwitchApi
             MessageBox.Show("Обновлено!", "!", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private static string? ShowInputDialog(string text)
+        protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            Form prompt = new Form()
-            {
-                Width = 300,
-                Height = 150,
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                Text = "Ввод",
-                StartPosition = FormStartPosition.CenterScreen
-            };
-
-            Label textLabel = new Label() { Left = 10, Top = 10, Text = text, AutoSize = true };
-            TextBox inputBox = new TextBox() { Left = 10, Top = 40, Width = 260 };
-
-            Button confirmation = new Button() { Text = "OK", Left = 110, Width = 80, Top = 70, DialogResult = DialogResult.OK };
-            prompt.AcceptButton = confirmation;
-
-            prompt.Controls.Add(textLabel);
-            prompt.Controls.Add(inputBox);
-            prompt.Controls.Add(confirmation);
-
-            return prompt.ShowDialog() == DialogResult.OK ? inputBox.Text : null;
+            base.OnFormClosing(e);
+            _profileStorage.SaveProfiles(_profiles.ToList());
         }
     }
 }

@@ -25,12 +25,12 @@ public class AuthService
         return response.IsSuccessStatusCode;
     }
 
-    public string GetCodeAuthLink(string redirect, TwitchScope scope)
+    public string GetCodeAuthLink(TwitchScope scope)
     {
         var query = new NameValueCollection
         {
             { "client_id", _context.ClientAuth.ClientId },
-            { "redirect_uri", redirect },
+            { "redirect_uri", _context.ClientAuth.RedirectUrl },
             { "response_type", "code" },
             { "scope", scope.ToScopeString() },
         };
@@ -38,7 +38,7 @@ public class AuthService
         return TwitchConstants.OuathAuthorize + query.ToQueryString();
     }
 
-    public async Task RefreshTokenByCode(string code, string redirect)
+    public async Task RefreshTokenByCode(string code)
     {
         var parameters = new Dictionary<string, string>
         {
@@ -46,7 +46,7 @@ public class AuthService
             { "client_secret", _context.ClientAuth.ClientSecret },
             { "code", code },
             { "grant_type", "authorization_code" },
-            { "redirect_uri", redirect },
+            { "redirect_uri", _context.ClientAuth.RedirectUrl },
         };
 
         await RefreshTokenInternal(parameters);
