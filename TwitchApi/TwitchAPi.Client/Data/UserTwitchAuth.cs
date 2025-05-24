@@ -2,6 +2,5 @@
 
 public record UserTwitchAuth(
     string? AccessToken,
-    string? RefreshToken,
-    string? BroadcasterId
+    string? RefreshToken
 );

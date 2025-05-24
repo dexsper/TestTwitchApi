@@ -1,12 +1,11 @@
 ﻿using System.Text.Json;
-using TwitchAPi.Client.Data;
 
-namespace TwitchAPi.Client;
+namespace TwitchAPi.Client.Data;
 
 public class UserAuthStorage
 {
     private readonly string _filename;
-    private readonly static UserTwitchAuth _empty = new(null, null, null);
+    private readonly static UserTwitchAuth _empty = new(null, null);
 
     public UserAuthStorage(string filename)
     {
