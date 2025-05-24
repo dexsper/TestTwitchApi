@@ -34,12 +34,13 @@
             uiProfileComboBox = new ComboBox();
             uiCreateProfileButton = new Button();
             uiDeleteProfileButton = new Button();
+            uiUserLabel = new Label();
             SuspendLayout();
             // 
             // uiTitleTextBox
             // 
             uiTitleTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            uiTitleTextBox.Location = new Point(12, 12);
+            uiTitleTextBox.Location = new Point(12, 43);
             uiTitleTextBox.Name = "uiTitleTextBox";
             uiTitleTextBox.PlaceholderText = "Название стрима";
             uiTitleTextBox.Size = new Size(200, 23);
@@ -48,7 +49,7 @@
             // updateButton
             // 
             updateButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            updateButton.Location = new Point(12, 183);
+            updateButton.Location = new Point(12, 216);
             updateButton.Name = "updateButton";
             updateButton.Size = new Size(200, 50);
             updateButton.TabIndex = 1;
@@ -59,7 +60,7 @@
             // uiCategoryIdTextBox
             // 
             uiCategoryIdTextBox.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            uiCategoryIdTextBox.Location = new Point(12, 41);
+            uiCategoryIdTextBox.Location = new Point(12, 72);
             uiCategoryIdTextBox.Name = "uiCategoryIdTextBox";
             uiCategoryIdTextBox.PlaceholderText = "ID игры";
             uiCategoryIdTextBox.Size = new Size(200, 23);
@@ -73,7 +74,7 @@
             uiProfileComboBox.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 204);
             uiProfileComboBox.FormattingEnabled = true;
             uiProfileComboBox.IntegralHeight = false;
-            uiProfileComboBox.Location = new Point(12, 70);
+            uiProfileComboBox.Location = new Point(12, 101);
             uiProfileComboBox.Name = "uiProfileComboBox";
             uiProfileComboBox.Size = new Size(200, 23);
             uiProfileComboBox.TabIndex = 3;
@@ -81,7 +82,7 @@
             // 
             // uiCreateProfileButton
             // 
-            uiCreateProfileButton.Location = new Point(12, 109);
+            uiCreateProfileButton.Location = new Point(12, 143);
             uiCreateProfileButton.Name = "uiCreateProfileButton";
             uiCreateProfileButton.Size = new Size(200, 23);
             uiCreateProfileButton.TabIndex = 4;
@@ -91,7 +92,7 @@
             // 
             // uiDeleteProfileButton
             // 
-            uiDeleteProfileButton.Location = new Point(12, 138);
+            uiDeleteProfileButton.Location = new Point(12, 172);
             uiDeleteProfileButton.Name = "uiDeleteProfileButton";
             uiDeleteProfileButton.Size = new Size(200, 23);
             uiDeleteProfileButton.TabIndex = 5;
@@ -99,11 +100,22 @@
             uiDeleteProfileButton.UseVisualStyleBackColor = true;
             uiDeleteProfileButton.Click += uiDeleteProfileButton_Click;
             // 
+            // uiUserLabel
+            // 
+            uiUserLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            uiUserLabel.Location = new Point(12, 13);
+            uiUserLabel.Name = "uiUserLabel";
+            uiUserLabel.Size = new Size(200, 15);
+            uiUserLabel.TabIndex = 6;
+            uiUserLabel.Text = "Не авторизован";
+            uiUserLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(227, 245);
+            ClientSize = new Size(227, 278);
+            Controls.Add(uiUserLabel);
             Controls.Add(uiDeleteProfileButton);
             Controls.Add(uiCreateProfileButton);
             Controls.Add(uiProfileComboBox);
@@ -126,5 +138,6 @@
         private ComboBox uiProfileComboBox;
         private Button uiCreateProfileButton;
         private Button uiDeleteProfileButton;
+        private Label uiUserLabel;
     }
 }

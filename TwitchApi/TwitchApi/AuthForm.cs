@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text;
 using TwitchAPi.Client;
+using TwitchAPi.Client.Common;
 
 namespace TwitchApi
 {
@@ -21,14 +22,14 @@ namespace TwitchApi
         private async void authButton_Click(object sender, EventArgs e)
         {
             var code = await GetAuthCode();
-            await _twitchApiClient.RefreshTokenByCode(code, RedirectUrl);
+            await _twitchApiClient.Auth.RefreshTokenByCode(code, RedirectUrl);
 
             Close();
         }
 
         private async Task<string> GetAuthCode()
         {
-            var authorizeUrl = _twitchApiClient.GetCodeAuthLink(
+            var authorizeUrl = _twitchApiClient.Auth.GetCodeAuthLink(
                 RedirectUrl,
                 TwitchScope.UserReadBroadcast | TwitchScope.ChannelManageBroadcast
             );

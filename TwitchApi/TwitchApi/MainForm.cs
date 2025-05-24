@@ -26,18 +26,18 @@ namespace TwitchApi
         private async void MainForm_Load(object sender, EventArgs e)
         {
             updateButton.Enabled = false;
-            var tokenIsValid = await _twitchApiClient.IsTokenValid();
+            var tokenIsValid = await _twitchApiClient.Auth.IsTokenValid();
 
-            if (tokenIsValid)
+            if (!tokenIsValid)
             {
-                updateButton.Enabled = true;
-                return;
+                using (var authForm = Program.ServiceProvider.GetRequiredService<AuthForm>())
+                    authForm.ShowDialog();
             }
 
-            using (var authForm = Program.ServiceProvider.GetRequiredService<AuthForm>())
-                authForm.ShowDialog();
+            await _twitchApiClient.InitializeUser();
 
             updateButton.Enabled = true;
+            uiUserLabel.Text = _twitchApiClient.UserName;
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -76,7 +76,7 @@ namespace TwitchApi
 
         private async void updateButton_Click(object sender, EventArgs e)
         {
-            var updateResult = await _twitchApiClient.UpdateBroadcast(uiTitleTextBox.Text, uiCategoryIdTextBox.Text);
+            var updateResult = await _twitchApiClient.Channel.UpdateBroadcast(uiTitleTextBox.Text, uiCategoryIdTextBox.Text);
 
             if (!updateResult)
             {
