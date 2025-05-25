@@ -43,9 +43,9 @@ namespace TwitchApi
         private static IHostBuilder CreateHostBuilder()
         {
             var configuration = new ConfigurationBuilder()
+                 .AddUserSecrets(Assembly.GetExecutingAssembly())
                  .AddJsonFile("appsettings.json", optional: true)
                  .AddEnvironmentVariables()
-                 .AddUserSecrets(Assembly.GetExecutingAssembly())
                  .Build();
 
             var hostBuilder = Host.CreateDefaultBuilder();
