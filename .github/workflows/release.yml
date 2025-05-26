@@ -1,0 +1,50 @@
+name: Publish and Release 
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    name: Build Windows
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+    
+      - uses: actions/cache@v3
+        with:
+          path: ${{ github.workspace }}/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      
+      - name: Set project path
+        id: vars
+        run: echo "PROJECT_PATH=./TwitchApi/TwitchApi/TwitchApi.csproj" >> $env:GITHUB_ENV
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.PROJECT_PATH }}
+
+      - name: Publish as single file (win-x64)
+        run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o publish
+
+      - name: Archive published app
+        run: Compress-Archive -Path publish\* -DestinationPath "twitchapi-win-x64.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.run_number }}
+          name: Release v${{ github.run_number }}
+          files: twitchapi-win-x64.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
