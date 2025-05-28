@@ -54,13 +54,18 @@ jobs:
       - name: Archive published app
         run: Compress-Archive -Path publish\* -DestinationPath "twitchapi-win-x64.zip"
 
-      - name: Ensure GitHub Release exists
-        run: gh release create $env:TAG --title "$env:TAG" --notes "Release $env:TAG" --verify-tag
+      - name: Create GitHub Release if not exists
+        run: |
+          if gh release view $env:TAG 2>$null; then
+            echo "Release $env:TAG already exists."
+          else
+            echo "Creating release $env:TAG..."
+            gh release create $env:TAG --title "$env:TAG" --notes "Auto-generated release"
+          fi
         env:
           GH_TOKEN: ${{ github.token }}
-        continue-on-error: true
-        
-      - name: Create GitHub Release
-        run: gh release upload $env:TAG twitchapi-win-x64.zip
+
+      - name: Upload release asset
+        run: gh release upload $env:TAG twitchapi-win-x64.zip --clobber
         env:
           GH_TOKEN: ${{ github.token }}
