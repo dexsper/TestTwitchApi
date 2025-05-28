@@ -56,12 +56,14 @@ jobs:
 
       - name: Create GitHub Release if not exists
         run: |
-          if gh release view $env:TAG 2>$null; then
-            echo "Release $env:TAG already exists."
-          else
-            echo "Creating release $env:TAG..."
+          $ErrorActionPreference = "SilentlyContinue"
+          $release = gh release view $env:TAG
+          if (-not $release) {
+            Write-Host "Creating release $env:TAG..."
             gh release create $env:TAG --title "$env:TAG" --notes "Auto-generated release"
-          fi
+          } else {
+            Write-Host "Release $env:TAG already exists."
+          }
         env:
           GH_TOKEN: ${{ github.token }}
 
