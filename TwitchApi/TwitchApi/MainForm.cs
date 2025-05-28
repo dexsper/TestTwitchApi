@@ -47,16 +47,19 @@ namespace TwitchApi
         {
             await _twitchApiClient.Auth.RefreshTokenByCode(code);
 
+            Invoke(Activate);
             InitializeUser();
-            Activate();
         }
 
         private async void InitializeUser()
         {
             await _twitchApiClient.InitializeUser();
 
-            updateButton.Enabled = true;
-            uiUserLabel.Text = _twitchApiClient.UserName;
+            Invoke(() =>
+            {
+                updateButton.Enabled = true;
+                uiUserLabel.Text = _twitchApiClient.UserName;
+            });
         }
 
         private void uiProfileComboBox_SelectedIndexChanged(object sender, EventArgs e)
