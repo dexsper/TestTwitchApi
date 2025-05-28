@@ -94,13 +94,16 @@ namespace TwitchApi
         {
             var updateResult = await _twitchApiClient.Channel.UpdateBroadcast(uiTitleTextBox.Text, uiCategoryIdTextBox.Text);
 
-            if (!updateResult)
+            Invoke(() =>
             {
-                MessageBox.Show("Не удалось обновить!", "!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+                if (!updateResult)
+                {
+                    MessageBox.Show(this, "Не удалось обновить!", "!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-            MessageBox.Show("Обновлено!", "!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(this, "Обновлено!", "!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            });
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
